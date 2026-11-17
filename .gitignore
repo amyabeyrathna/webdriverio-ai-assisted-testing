@@ -1,0 +1,9 @@
+node_modules/
+.pnpm-store/
+reports/allure-results/
+reports/allure-report/
+allure-report/
+.env
+.env.*
+!.env.example
+.DS_Store

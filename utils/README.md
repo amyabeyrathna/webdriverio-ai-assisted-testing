@@ -1,0 +1,1 @@
+# Shared utilities\n\nPlace reusable test helpers here (test data, environment configuration, and reporting helpers).\n

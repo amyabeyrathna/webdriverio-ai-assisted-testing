@@ -1,0 +1,1 @@
+# Configuration\n\nPlace environment-specific, non-secret configuration here. Use environment variables or CI secrets for credentials.\n

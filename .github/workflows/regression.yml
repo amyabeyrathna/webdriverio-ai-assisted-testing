@@ -1,0 +1,41 @@
+name: WebdriverIO Regression
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * 1-5'
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Run regression suite
+        run: pnpm test:regression
+
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: regression-allure-results-${{ github.run_number }}
+          path: reports/allure-results
+          if-no-files-found: ignore
+          retention-days: 14

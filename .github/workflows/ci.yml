@@ -1,0 +1,55 @@
+name: WebdriverIO CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ui-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Run WebdriverIO tests
+        run: pnpm test
+
+      - name: Generate Allure HTML report
+        if: always()
+        run: |
+          if [ -d reports/allure-results ] && [ "$(find reports/allure-results -type f | wc -l)" -gt 0 ]; then
+            pnpm exec allure generate reports/allure-results --clean -o reports/allure-report
+          else
+            echo "No Allure results were generated."
+          fi
+
+      - name: Upload Allure results and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report-${{ github.run_number }}
+          path: |
+            reports/allure-results
+            reports/allure-report
+          if-no-files-found: ignore
+          retention-days: 14
