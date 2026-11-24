@@ -13,6 +13,10 @@ permissions:
 jobs:
   ui-tests:
     runs-on: ubuntu-latest
+    env:
+      BASE_URL: ${{ secrets.SAUCEDEMO_BASE_URL }}
+      USERNAME: ${{ secrets.SAUCEDEMO_USERNAME }}
+      PASSWORD: ${{ secrets.SAUCEDEMO_PASSWORD }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
