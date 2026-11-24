@@ -2,6 +2,7 @@
 import allure from '@wdio/allure-reporter';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { ENV } from './env.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,6 +13,8 @@ export const config = {
     runner: 'local',
 
     specs: [path.join(projectRoot, 'tests/specs/**/*.js')],
+
+    baseUrl: ENV.baseUrl,
 
     maxInstances: 1,
 

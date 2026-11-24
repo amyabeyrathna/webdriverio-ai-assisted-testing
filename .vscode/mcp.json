@@ -1,0 +1,14 @@
+{
+  "servers": {
+    "wdio-mcp": {
+      "type": "stdio",
+      "command": "pnpm",
+      "args": ["exec", "wdio-mcp"]
+    },
+    "test-config": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["mcp/config-server.js"]
+    }
+  }
+}
